@@ -38,7 +38,7 @@ CREATE TABLE `t_invoice` (
   `seller_bank` varchar(255) NOT NULL COMMENT '销售方银行及账号',
   `amount_tax` double DEFAULT NULL COMMENT '价税合计',
   `amount` double DEFAULT NULL COMMENT '金额合计',
-  `tax_amoune` double DEFAULT NULL COMMENT '税额合计',
+  `tax_amount` double DEFAULT NULL COMMENT '税额合计',
   `package_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

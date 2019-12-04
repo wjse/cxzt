@@ -9,3 +9,6 @@ spring:
 logging:
   level:
     com.k66.cxzt: debug
+
+web:
+  origins: "*"
