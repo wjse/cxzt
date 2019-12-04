@@ -1,1 +1,11 @@
+spring:
+  profiles:
+    active: @env@
 
+mybatis:
+  type-aliases-package: com.k66.cxzt.model
+  mapper-locations: classpath*:mapper/*.xml
+
+server:
+  servlet:
+    context-path: /
