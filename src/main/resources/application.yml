@@ -9,3 +9,5 @@ mybatis:
 server:
   servlet:
     context-path: /
+
+

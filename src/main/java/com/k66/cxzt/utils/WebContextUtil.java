@@ -2,7 +2,7 @@ package com.k66.cxzt.utils;
 
 import com.k66.cxzt.model.User;
 
-public class WebUserUtil {
+public class WebContextUtil {
 	private static final ThreadLocal<User> USER_LOCAL = new ThreadLocal<>();
 
 	public static void setUser(User user){

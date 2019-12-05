@@ -38,7 +38,7 @@ public class MessageI18NProcessor {
 
 	private void init(String locale){
 		locale = locale.replace("-" , "_");
-		String path = String.format(PATH , locale);
+		String path = String.format(PATH , locale.toLowerCase());
 		try {
 			resources = resourceResolver.getResources(path);
 			config = read(resources);
