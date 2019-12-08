@@ -12,19 +12,19 @@
             region,
             company
        from t_user
-      where type = #{type}
-      <if test="null != username">
-        and username = #{username}
-      </if>
-      <if test="null != mobile">
-        and mobile = #{mobile}
-      </if>
+      <where>
+          <if test="null != username">
+            and username = #{username}
+          </if>
+          <if test="null != mobile">
+            and mobile = #{mobile}
+          </if>
+      </where>
     </select>
 
     <select id="get" resultType="com.k66.cxzt.model.User">
         select id,
                username,
-               password,
                mobile,
                email,
                type,
@@ -34,4 +34,26 @@
           from t_user
          where id = #{id}
     </select>
+
+    <select id="getByOpenId" resultType="com.k66.cxzt.model.User">
+        select id,
+               username,
+               mobile,
+               email,
+               type,
+               open_id openId,
+               region,
+               company
+          from t_user
+         where open_id = #{openId}
+    </select>
+
+    <update id="updateOpenIdAndWechat" parameterType="com.k66.cxzt.model.User">
+        update t_user
+           set open_id = #{openId}
+        <if test="null != wechat">
+              ,wechat = #{wechat}
+        </if>
+         where id = #{id}
+    </update>
 </mapper>

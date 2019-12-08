@@ -48,13 +48,11 @@ public class AuthHandler implements HandlerInterceptor {
 		}
 
 		if(JWTUtil.isWillExpire(token)){
-			boolean isWeChat = false;
-			String wechat = request.getHeader("wechat");
-			if(StringUtils.isNoneBlank(wechat) && Boolean.valueOf(wechat)){
-				isWeChat = true;
+			String web = request.getHeader("from");
+			if(StringUtils.isNoneBlank(web) && Boolean.valueOf(web)){
+				String newToken = JWTUtil.createToken(String.valueOf(user.getId()) , user.getUsername() , false);
+				response.addHeader("Token" , newToken);
 			}
-			String newToken = JWTUtil.createToken(String.valueOf(user.getId()) , user.getUsername() , isWeChat);
-			response.addHeader("Token" , newToken);
 		}
 
 		WebContextUtil.setUser(user);

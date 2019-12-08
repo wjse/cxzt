@@ -84,6 +84,7 @@ CREATE TABLE `t_user` (
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
   `type` enum('ADMIN','NORMAL') DEFAULT NULL COMMENT '用户类型',
   `open_id` varchar(100) DEFAULT NULL COMMENT '微信id',
+  `wechat` text DEFAULT NULL COMMENT '微信信息',
   `region` varchar(100) DEFAULT NULL COMMENT '所属区域',
   `company` varchar(100) DEFAULT NULL COMMENT '公司',
   PRIMARY KEY (`id`)

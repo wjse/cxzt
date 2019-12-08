@@ -10,4 +10,15 @@ server:
   servlet:
     context-path: /
 
+wechat:
+  api:
+    code2session: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
+    access-token: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s
+    user-info: https://api.weixin.qq.com/cgi-bin/user/info?access_token=%S&openid=%s&lang=zh_CN
+  app-id: wx8e9573c500d730b4
+  app-secret: 9b785f95c410aff5595fd8ad6c732d26
 
+leshui:
+  url: https://open.leshui365.com/
+  app-key: 3e05c9bba4314f0da1776b5ec90ca1bc
+  app-secret: 2759250e-ac32-4f5f-83b7-dd7cedd85078

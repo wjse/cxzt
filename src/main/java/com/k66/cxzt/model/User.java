@@ -11,6 +11,7 @@ public class User {
 	private String email;
 	private UserType type;
 	private String openId;
+	private String wechat;
 	private String region;
 	private String company;
 
