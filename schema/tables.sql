@@ -40,6 +40,7 @@ CREATE TABLE `t_invoice` (
   `amount` double DEFAULT NULL COMMENT '金额合计',
   `tax_amount` double DEFAULT NULL COMMENT '税额合计',
   `package_id` bigint(20) DEFAULT NULL,
+  `user_id` int(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -80,6 +81,7 @@ CREATE TABLE `t_user` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL COMMENT '用户名',
   `password` varchar(100) NOT NULL COMMENT '密码',
+  `nick_name` varchar(100) NOT NULL COMMENT '昵称',
   `mobile` char(15) NOT NULL COMMENT '手机号',
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
   `type` enum('ADMIN','NORMAL') DEFAULT NULL COMMENT '用户类型',

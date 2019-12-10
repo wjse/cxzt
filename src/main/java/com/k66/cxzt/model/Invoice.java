@@ -1,10 +1,10 @@
 package com.k66.cxzt.model;
 
-import com.sun.tools.javac.util.List;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Invoice {
@@ -94,6 +94,7 @@ public class Invoice {
 	 */
 	private BigDecimal taxAmount;
 
-	private long packageId;
+	private Long packageId;
 	private List<InvoiceDetail> invoiceDetailList;
+	private int userId;
 }

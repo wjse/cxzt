@@ -5,6 +5,7 @@
      select id,
             username,
             password,
+            nick_name nickName,
             mobile,
             email,
             type,
@@ -25,6 +26,7 @@
     <select id="get" resultType="com.k66.cxzt.model.User">
         select id,
                username,
+               nick_name nickName,
                mobile,
                email,
                type,
@@ -38,6 +40,7 @@
     <select id="getByOpenId" resultType="com.k66.cxzt.model.User">
         select id,
                username,
+               nick_name nickName,
                mobile,
                email,
                type,

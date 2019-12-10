@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.k66.cxzt.mapper.InvoiceMapper">
+    <insert id="add" parameterType="com.k66.cxzt.model.Invoice">
+        insert into t_invoice(
+        id,number,code,date,type,invoice_type,
+        buyer_name,buyer_tax_no,buyer_addr_tel,buyer_bank,
+        seller_name,seller_tax_no,seller_addr_tel,seller_bank,
+        amount_tax,amount,tax_amount,package_id,user_id
+        ) values (
+        #{data.id},#{data.number},#{data.code},#{data.type},#{data.invoiceType},
+        #{data.buyerName},#{data.buyerTaxNo},#{data.buyerAddrTel},#{data.buyerBank},
+        #{data.sellerName},#{data.sellerTaxNo},#{data.sellerAddrTel},#{data.sellerBank},
+        #{data.amountTax},#{data.amount},#{data.taxAmount},#{data.packageId},#{data.userId}
+        )
+    </insert>
+
+    <select id="getCountByNumberAndCode">
+        select id,
+               package_id packageId
+          from t_invoice
+         where number = #{number}
+           and code = #{code}
+    </select>
+
+    <update id="updatePackage">
+        update t_invoice
+           set package_id = #{packageId}
+         where id in
+         <foreach collection="ids" open="(" close=")" separator="," item="id">
+             #{id}
+         </foreach>
+    </update>
+
+    <select id="queryForList" parameterType="map" resultType="com.k66.cxzt.model.Invoice">
+        select id,
+               number,
+               code,
+               date,
+               type,
+               invoice_type invoiceType,
+               buyer_name buyerName,
+               buyer_tax_no buyerTaxNo,
+               buyer_addr_tel buyerAddrTel,
+               buyer_bank buyerBank,
+               seller_name sellerName,
+               seller_tax_no sellerTaxNo,
+               seller_addr_tel sellerAddrTel,
+               seller_bank sellerBanl,
+               amount_tax amountTax,
+               amount,
+               tax_amount taxAmount,
+               package_id packageId,
+               user_id userId
+          from t_invoce
+        <where>
+            <if test="null != packageId">
+                and package_id = #{packageId}
+            </if>
+            <if test="null != userId">
+                and user_id = #{userId}
+            </if>
+            <if test="null != number">
+                and number = #{number}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != invoiceType">
+                and invoice_type = #{invoiceType}
+            </if>
+            <if test="null != buyerName">
+                and buyer_name = #{buyerName}
+            </if>
+            <if test="null != sellerName">
+                and sellr_name = #{sellerName}
+            </if>
+            <if test="null != nickName">
+                and user_id = (
+                select id
+                  from t_user
+                 where nick_name = #{nickName}
+                )
+            </if>
+            <if test="null != packageIds">
+                and package_id in
+                <foreach collection="packageIds" open="(" close=")" separator="," item="packageId">
+                    #{packageId}
+                </foreach>
+            </if>
+        </where>
+        order by date desc
+    </select>
+</mapper>

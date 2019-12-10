@@ -16,7 +16,7 @@ public class InvoiceDetail {
 	/**
 	 * 规格型号
 	 */
-	private String spec;
+	private String specs;
 
 	/**
 	 * 单位

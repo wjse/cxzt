@@ -7,6 +7,7 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
+	private String nickName;
 	private String mobile;
 	private String email;
 	private UserType type;

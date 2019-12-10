@@ -1,110 +1,112 @@
 package com.k66.cxzt.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.k66.cxzt.exception.BusinessException;
 import com.k66.cxzt.exception.ErrorCode;
-import com.k66.cxzt.utils.HttpSender;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.springframework.beans.factory.annotation.Value;
+import com.k66.cxzt.mapper.InvoiceDetailMapper;
+import com.k66.cxzt.mapper.InvoiceMapper;
+import com.k66.cxzt.mapper.InvoicePackageMapper;
+import com.k66.cxzt.model.Invoice;
+import com.k66.cxzt.model.InvoiceDetail;
+import com.k66.cxzt.model.InvoicePackage;
+import com.k66.cxzt.service.InvoiceService;
+import com.k66.cxzt.service.LeshuiService;
+import com.k66.cxzt.utils.IdGenUtil;
+import com.k66.cxzt.web.vo.WechatInvoicePackageVO;
+import com.k66.cxzt.web.vo.WechatInvoiceVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class InvoiceServiceImpl {
+@Service
+public class InvoiceServiceImpl implements InvoiceService {
 
-	@Value("${leshui.url}")
-	private String leshuiUrl;
+	@Autowired
+	private InvoicePackageMapper invoicePackageMapper;
 
-	@Value("${leshui.app-key}")
-	private String appKey;
+	@Autowired
+	private InvoiceMapper invoiceMapper;
 
-	@Value("${leshui.app-secret}")
-	private String appSecret;
+	@Autowired
+	private InvoiceDetailMapper invoiceDetailMapper;
 
-	private static String leshuiToken;
-	private static AtomicInteger threadCount = new AtomicInteger();
+	@Autowired
+	private LeshuiService leshuiService;
 
-	private ThreadLocal<Integer> requestCount = new ThreadLocal<>();
-
-	//TODO
-	private void getInvoice(String code , String number , String time , String check){
-		if(!checkInvoice(code)){
-			throw new BusinessException(ErrorCode.FORBIDDEN , "invoice.invalidate");
+	@Override
+	@Transactional
+	public Long scanInvoice(WechatInvoiceVO vo) {
+		Invoice invoice = invoiceMapper.getCountByNumberAndCode(vo.getNumber() , vo.getCode());
+		if(null != invoice && null != invoice.getPackageId()){
+			throw new BusinessException(101 , "invoice.existed");
 		}
 
-		String url = String.format("%s/api/invoiceInfoForCom" , leshuiUrl);
-		PostMethod method = new PostMethod(url);
-		method.setRequestBody(new NameValuePair[]{
-						new NameValuePair("invoiceCode" , code),
-						new NameValuePair("invoiceNumber" , number),
-						new NameValuePair("billTime" , time),
-						new NameValuePair("checkCode" , check),
-						new NameValuePair("token" , leshuiToken),
-		});
-
-		JSONObject result = HttpSender.send(method);
-		if(null != result && "00".equals(result.getString("RtnCode"))){
-			if("1000".equals(result.getString("resultCode"))){
-				//TODO
+		if(null == invoice){
+			Invoice newInvoice = leshuiService.getInvoice(vo.getCode() , vo.getNumber() , vo.getDate() , vo.getCheck());
+			if(null == newInvoice){
+				throw new BusinessException(102 , "invoice.invalidate");
 			}
+			IdGenUtil idGenUtil = new IdGenUtil();
+			newInvoice.setId(idGenUtil.nextId());
+			newInvoice.setUserId(vo.getUserId());
+
+			List<InvoiceDetail> details = newInvoice.getInvoiceDetailList().stream().map(d -> {
+				d.setInvoiceId(newInvoice.getId());
+				d.setId(idGenUtil.nextId());
+				return d;
+			}).collect(Collectors.toList());
+
+			invoiceMapper.add(newInvoice);
+			invoiceDetailMapper.batchAdd(details);
+			invoice = newInvoice;
 		}
+		return invoice.getId();
 	}
 
-	private boolean checkInvoice(String invoiceCode){
-		String url = String.format("%s/api/getInvoiceModel" , leshuiUrl);
-		PostMethod method = new PostMethod(url);
-		method.setRequestBody(new NameValuePair[]{
-						new NameValuePair("invoiceCode" , invoiceCode),
-						new NameValuePair("token" , leshuiToken == null ? getLeshuiToken() : leshuiToken)
-		});
-		JSONObject result = HttpSender.send(method);
-		if(null != result && "00".equals(result.getString("RtnCode"))){
-			if(isLeshuiTokenError(result)){
-				flushLeshuiToken();
-				return checkInvoice(invoiceCode);
-			}
-
-			if("00".equals("resultCode")){
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private String getLeshuiToken(){
-		String url = String.format("%s/getToken?appKey=%s&appSecret=%s" , leshuiUrl , appKey , appSecret);
-		GetMethod method = new GetMethod(url);
-		JSONObject result = HttpSender.send(method);
-		if(null != result && result.containsKey("token")){
-			return result.getString("token");
+	@Override
+	@Transactional
+	public void addPackage(WechatInvoicePackageVO vo) {
+		Set<Long> invoiceIdSet = vo.getInvoiceIdSet();
+		if(null == invoiceIdSet || invoiceIdSet.isEmpty()){
+			throw new BusinessException(ErrorCode.ERROR , "parameter.error");
 		}
 
-		throw new BusinessException(ErrorCode.ERROR , "Get leshui token error");
+		IdGenUtil idGenUtil = new IdGenUtil();
+		InvoicePackage iPackage = new InvoicePackage();
+		iPackage.setCount(invoiceIdSet.size());
+		iPackage.setId(idGenUtil.nextId());
+		iPackage.setDate(new Date());
+		iPackage.setUserId(vo.getUserId());
+
+		invoicePackageMapper.add(iPackage);
+		invoiceMapper.updatePackage(iPackage.getId() , invoiceIdSet);
 	}
 
-	private void flushLeshuiToken(){
-		Integer count = requestCount.get();
-		if(null != count && count.intValue() >= 3){
-			throw new BusinessException(ErrorCode.ERROR , "Get leshui token error . Maybe have no money");
+	@Override
+	public PageInfo<InvoicePackage> queryInvoicePackage(int pageNum , int pageSize , Map<String, Object> map) {
+		return PageHelper.startPage(pageNum , pageSize)
+						.doSelectPageInfo(() -> invoicePackageMapper.queryForList(map));
+	}
+
+	@Override
+	public List<Invoice> queryInvoiceByPackage(Long packageId) {
+		Map<String , Object> map = new HashMap<>();
+		map.put("packageId" , packageId);
+		List<Invoice> list = invoiceMapper.queryForList(map);
+		if(null == list){
+			return Collections.EMPTY_LIST;
 		}
-		leshuiToken = getLeshuiToken();
-		requestCount.set(threadCount.getAndIncrement());
-	}
 
-	private boolean isLeshuiTokenError(JSONObject json){
-		return json.containsKey("error") && "token error".equals(json.getString("error"));
-	}
-
-	public static void main(String[] args) {
-		ThreadLocal<Integer> t = new ThreadLocal<>();
-		AtomicInteger atomicInteger = new AtomicInteger();
-		System.out.println(t.get());
-		t.set(atomicInteger.getAndIncrement());
-		System.out.println(t.get());
-		t.set(atomicInteger.getAndIncrement());
-		System.out.println(t.get());
+		List<Long> invoiceIds = list.stream().map(i -> i.getId()).collect(Collectors.toList());
+		List<InvoiceDetail> details = invoiceDetailMapper.queryByInvoiceId(invoiceIds);
+		for(Invoice invoice : list){
+			List<InvoiceDetail> tmp = details.stream().filter(d -> d.getInvoiceId() == invoice.getId()).collect(Collectors.toList());
+			invoice.setInvoiceDetailList(tmp);
+		}
+		return list;
 	}
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.k66.cxzt.mapper.InvoicePackageMapper">
+    <insert id="add" parameterType="com.k66.cxzt.model.InvoicePackage">
+        insert into t_invoice_package(
+        id , date , user_id , count
+        ) values (
+        #{id} , #{date} , #{userId} , #{count}
+        )
+    </insert>
+
+    <select id="queryForList" parameterType="map" resultType="com.k66.cxzt.model.InvoicePackage">
+       select id,
+              date,
+              count
+         from t_invoice_package
+       <where>
+           <if test="null != userId">
+               and user_id = #{userId}
+           </if>
+           <if test="null != startTime">
+               and date &gt;= #{startTime}
+           </if>
+           <if test="null != endTime">
+               and date &lt;= #{endTime}
+           </if>
+       </where>
+       order by date desc
+    </select>
+</mapper>

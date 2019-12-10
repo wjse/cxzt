@@ -1,9 +1,10 @@
 package com.k66.cxzt.model;
 
-import com.sun.tools.javac.util.List;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Data
 public class InvoicePackage {
@@ -12,5 +13,5 @@ public class InvoicePackage {
 	private int userId;
 	private User user;
 	private int count;
-	private List<Invoice> invoiceList;
+	private Set<Invoice> invoiceSet = new TreeSet<>();
 }

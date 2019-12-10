@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.k66.cxzt.mapper.InvoiceDetailMapper">
+    <insert id="batchAdd" parameterType="com.k66.cxzt.model.InvoiceDetail">
+        insert into t_invoice_detail(
+        id,remark,specs,unit,count,price,
+        amount,tax_rate,tax_amount,invoice_id
+        ) values
+        <foreach collection="list" separator="," item="data">
+            (
+            #{data.id},#{data.remark},#{data.specs},#{data.unit},#{data.count},
+            #{data.price},#{data.amount},#{data.taxRate},#{data.taxAmount},
+            #{data.invoiceId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryByInvoiceId" parameterType="list" resultType="com.k66.cxzt.model.InvoiceDetail">
+        select id,
+               remark,
+               specs,
+               unit,
+               count,
+               price,
+               amount,
+               tax_rate taxRate,
+               tax_amount taxAmount,
+               invoice_id invoiceId
+          from t_invoice_detail
+         where invoice_id in
+         <foreach collection="list" open="(" close=")" separator="," item="invoiceId">
+             #{invoiceId}
+         </foreach>
+    </select>
+</mapper>
