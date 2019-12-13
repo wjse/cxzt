@@ -28,7 +28,7 @@ public class WebConfig {
 			public void addInterceptors(InterceptorRegistry registry) {
 				registry.addInterceptor(authHandler())
 				        .addPathPatterns("/**")
-				        .excludePathPatterns("/*.html" , "/login" , "/error" , "/static/**" , "/css/**" , "/fonts/**" ,
+				        .excludePathPatterns("/favicon.ico","/*.html" , "/login" , "/error" , "/static/**" , "/css/**" , "/fonts/**" ,
 												             "/icons**" , "/img/**" , "/js/**" , "/vendor/**");
 			}
 

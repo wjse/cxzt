@@ -26,7 +26,7 @@ public class LoginApi {
 		JSONObject resp = new JSONObject();
 		resp.put("code" , 200);
 		resp.put("token" , token);
-		resp.put("username" , user.getUsername());
+		resp.put("nickName" , user.getNickName());
 		return resp;
 	}
 

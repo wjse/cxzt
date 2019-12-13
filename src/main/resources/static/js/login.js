@@ -9,7 +9,7 @@
         api("/login" , "post" , {username : username , password : password , from : "web"} , function(res){
             if(res.code == 200){
                 window.sessionStorage.setItem("token" , res.token);
-                window.sessionStorage.setItem("username" , res.username);
+                window.sessionStorage.setItem("nickName" , res.nickName);
                 window.location.href = "/index.html";
             }else{
                 $("#login-error").text(res.message).show();
