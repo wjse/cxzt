@@ -41,7 +41,7 @@ public class InvoiceDetail {
 	/**
 	 * 税率
 	 */
-	private BigDecimal taxRate;
+	private String taxRate;
 
 	/**
 	 * 税额

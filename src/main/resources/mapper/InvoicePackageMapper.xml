@@ -3,16 +3,17 @@
 <mapper namespace="com.k66.cxzt.mapper.InvoicePackageMapper">
     <insert id="add" parameterType="com.k66.cxzt.model.InvoicePackage">
         insert into t_invoice_package(
-        id , date , user_id , count
+        id , date , user_id , count , amount
         ) values (
-        #{id} , #{date} , #{userId} , #{count}
+        #{id} , #{date} , #{userId} , #{count} , #{amount}
         )
     </insert>
 
     <select id="queryForList" parameterType="map" resultType="com.k66.cxzt.model.InvoicePackage">
        select id,
               date,
-              count
+              count,
+              amount
          from t_invoice_package
        <where>
            <if test="null != userId">

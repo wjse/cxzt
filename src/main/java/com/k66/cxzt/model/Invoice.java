@@ -13,7 +13,7 @@ public class Invoice {
 	/**
 	 * 发票号码
 	 */
-	private String numner;
+	private String number;
 
 	/**
 	 * 发票代码
@@ -29,6 +29,11 @@ public class Invoice {
 	 * 发票类型
 	 * 1-专票
 	 * 2-普票
+	 * 3-电子
+	 * 4-机动车销售
+	 * 5-卷式
+	 * 6-电子通行费
+	 * 7-二手车
 	 */
 	private int type;
 

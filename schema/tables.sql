@@ -56,7 +56,7 @@ CREATE TABLE `t_invoice_detail` (
   `count` double DEFAULT NULL COMMENT '数量',
   `price` double DEFAULT NULL COMMENT '单价',
   `amount` double DEFAULT NULL COMMENT '金额',
-  `tax_rate` double DEFAULT NULL COMMENT '税率',
+  `tax_rate` char(10) DEFAULT NULL COMMENT '税率',
   `tax_amount` double DEFAULT NULL COMMENT '税额',
   `invoice_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -71,6 +71,7 @@ CREATE TABLE `t_invoice_package` (
   `date` datetime NOT NULL COMMENT '提交日期',
   `user_id` int(11) NOT NULL COMMENT '提交人',
   `count` int(11) DEFAULT NULL COMMENT '发票张数'
+  `amount` double DEFAULT NULL COMMENT '金额'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

@@ -3,8 +3,30 @@
     $(function(){
         $("#scanner").val(window.sessionStorage.getItem("nickName"));
         getScan();
-    });
 
+        $("#submit").on("click" , function(){
+            $(".form-inline").on("submit" , () => false)
+            if(!invoiceList || invoiceList.length == 0){
+                return
+            }
+
+            let invoicePackage = {
+                count : $("#count").val(),
+                amount : $("#totalAmount").val(),
+                invoiceArray : invoiceList
+            };
+
+            api("/invoice/package" , "POST" , invoicePackage , function(res){
+                if(res.code == 200){
+                    if(confirm("提交成功，继续扫描？")){
+                        window.location.reload();
+                    }else{
+                        window.location.href = "/invoice.html";
+                    }
+                }
+            });
+        });
+    });
 
     function getScan(){
         let code = "";
@@ -23,6 +45,9 @@
 
     function flush(){
         if(!invoiceList || invoiceList.length == 0){
+            $("#tbody").html("");
+            $("#totalAmount").val(0);
+            $("#count").val(0);
             return;
         }
 
@@ -35,17 +60,32 @@
             html += "<th scope='row'>"+ (i+1) +"</th>";
             html += "<td>" + invoice.code + "</td>";
             html += "<td>" + invoice.number + "</td>";
+            html += "<td>" + invoice.typeString + "</td>";
             html += "<td>" + invoice.amount + "</td>";
-            html += "<td>" + invoice.dateString + "</td>";
+            html += "<td>" + invoice.date + "</td>";
             html += "<td>" + invoice.check + "</td>";
+            html += "<td><button code='"+invoice.code+"' number='"+invoice.number+"' class='delBtn btn btn-danger'>删除</button></td>";
             html += "</tr>";
             totalAmount += parseFloat(invoice.amount);
             count++;
         }
 
         $("#tbody").html(html);
-        $("#totalAmount").val(totalAmount);
+        $("#totalAmount").val(totalAmount.toFixed(2));
         $("#count").val(count);
+
+        $(".delBtn").on("click" , function(){
+            let code = $(this).attr("code") , number = $(this).attr("number");
+            let newArray = [];
+            for(let i = 0 ; i < invoiceList.length ; i++){
+                let invoice = invoiceList[i];
+                if(invoice.code != code && invoice.number != number){
+                    newArray.push(invoice);
+                }
+            }
+            invoiceList = newArray;
+            flush();
+        });
     };
 
     function getInfo(code){
@@ -59,10 +99,11 @@
             code : array[2],
             number : array[3],
             amount : array[4],
-            date : getDate(array[5]).getTime(),
-            dateString : getDateString(array[5]),
+            date : getDateString(array[5]),
             check : array[6]
         };
+
+        console.log(invoice);
 
         let has = false;
         for(let i in invoiceList){
