@@ -9,8 +9,8 @@ import java.util.Map;
 @Data
 public class InvoicePackageQueryVO {
 	Integer userId;
-	Date startTime;
-	Date endTime;
+	Long startTime;
+	Long endTime;
 
 	public Map<String , Object> toMap(){
 		Map<String , Object> map = new HashMap<>();
@@ -19,11 +19,11 @@ public class InvoicePackageQueryVO {
 		}
 
 		if(null != startTime){
-			map.put("startTime" , startTime);
+			map.put("startTime" , new Date(startTime));
 		}
 
 		if(null != endTime){
-			map.put("endTime" , endTime);
+			map.put("endTime" , new Date(endTime));
 		}
 		return map;
 	}

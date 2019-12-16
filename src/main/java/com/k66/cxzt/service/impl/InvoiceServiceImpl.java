@@ -1,11 +1,14 @@
 package com.k66.cxzt.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.k66.cxzt.mapper.InvoiceDetailMapper;
 import com.k66.cxzt.mapper.InvoiceMapper;
 import com.k66.cxzt.mapper.InvoicePackageMapper;
 import com.k66.cxzt.model.Invoice;
 import com.k66.cxzt.model.InvoiceDetail;
 import com.k66.cxzt.model.InvoicePackage;
+import com.k66.cxzt.model.User;
 import com.k66.cxzt.service.InvoiceService;
 import com.k66.cxzt.service.LeshuiService;
 import com.k66.cxzt.utils.IdGenUtil;
@@ -83,6 +86,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 			invoiceDetailMapper.batchAdd(allDetailList);
 			invoicePackageMapper.add(invoicePackage);
 		}
+	}
+
+	@Override
+	public PageInfo<InvoicePackage> queryPackage(User user, int pageNum, int pageSize, Map<String, Object> map) {
+		if(User.UserType.NORMAL.equals(user.getType())){
+			map.put("userId" , user.getId());
+		}
+		return PageHelper.startPage(pageNum , pageSize).doSelectPageInfo(() -> invoicePackageMapper.queryForList(map));
 	}
 
 	private boolean isNotHistory(QRInvoiceVO invoiceVO , List<Map<String , Object>> historyList){

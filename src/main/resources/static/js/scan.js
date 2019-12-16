@@ -21,7 +21,7 @@
                     if(confirm("提交成功，继续扫描？")){
                         window.location.reload();
                     }else{
-                        window.location.href = "/invoice.html";
+                        window.location.href = "/package.html";
                     }
                 }
             });

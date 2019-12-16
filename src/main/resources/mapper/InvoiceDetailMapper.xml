@@ -15,7 +15,7 @@
         </foreach>
     </insert>
 
-    <select id="queryByInvoiceId" parameterType="list" resultType="com.k66.cxzt.model.InvoiceDetail">
+    <select id="queryByInvoiceId" parameterType="long" resultType="com.k66.cxzt.model.InvoiceDetail">
         select id,
                remark,
                specs,
@@ -27,9 +27,6 @@
                tax_amount taxAmount,
                invoice_id invoiceId
           from t_invoice_detail
-         where invoice_id in
-         <foreach collection="list" open="(" close=")" separator="," item="invoiceId">
-             #{invoiceId}
-         </foreach>
+         where invoice_id = #{invoiceId}
     </select>
 </mapper>

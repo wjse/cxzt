@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.k66.cxzt.mapper.InvoiceMapper">
+    <resultMap id="invoice" type="com.k66.cxzt.model.Invoice">
+        <result column="id" property="id"></result>
+        <result column="number" property="number"></result>
+        <result column="code" property="code"></result>
+        <result column="date" property="date"></result>
+        <result column="type" property="type"></result>
+        <result column="invoice_type" property="invoiceType"></result>
+        <result column="buyer_name" property="buyerName"></result>
+        <result column="buyer_tax_no" property="buyerTaxNo"></result>
+        <result column="buyer_addr_tel" property="buyerAddrTel"></result>
+        <result column="buyer_bank" property="buyerBank"></result>
+        <result column="seller_name" property="sellerName"></result>
+        <result column="seller_tax_no" property="sellerTaxNo"></result>
+        <result column="seller_addr_tel" property="sellerAddrTel"></result>
+        <result column="seller_bank" property="sellerBank"></result>
+        <result column="amount_tax" property="amountTax"></result>
+        <result column="amount" property="amount"></result>
+        <result column="tax_amount" property="taxAmount"></result>
+        <result column="package_id" property="packageId"></result>
+        <result column="user_id" property="userId"></result>
+        <association property="invoiceDetailList" column="id" select="com.k66.cxzt.mapper.InvoiceDetailMapper.queryByInvoiceId"></association>
+    </resultMap>
+
     <insert id="add" parameterType="com.k66.cxzt.model.Invoice">
         insert into t_invoice(
         id,number,code,date,type,invoice_type,
@@ -48,27 +71,27 @@
       group by number , code
     </select>
 
-    <select id="queryForList" parameterType="map" resultType="com.k66.cxzt.model.Invoice">
+    <select id="queryForList" parameterType="map" resultMap="invoice">
         select id,
                number,
                code,
                date,
                type,
-               invoice_type invoiceType,
-               buyer_name buyerName,
-               buyer_tax_no buyerTaxNo,
-               buyer_addr_tel buyerAddrTel,
-               buyer_bank buyerBank,
-               seller_name sellerName,
-               seller_tax_no sellerTaxNo,
-               seller_addr_tel sellerAddrTel,
-               seller_bank sellerBanl,
-               amount_tax amountTax,
+               invoice_type,
+               buyer_name,
+               buyer_tax_no,
+               buyer_addr_tel,
+               buyer_bank,
+               seller_name,
+               seller_tax_no,
+               seller_addr_tel,
+               seller_bank,
+               amount_tax,
                amount,
-               tax_amount taxAmount,
-               package_id packageId,
-               user_id userId
-          from t_invoce
+               tax_amount,
+               package_id,
+               user_id
+          from t_invoice
         <where>
             <if test="null != packageId">
                 and package_id = #{packageId}

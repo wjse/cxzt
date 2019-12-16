@@ -31,7 +31,7 @@ public class MenuApi {
         JSONObject result = new JSONObject();
         List<Menu> list = new ArrayList<>();
         list.add(new Menu("/scan.html" , "发票扫描" , "interface-windows"));
-        list.add(new Menu("/invoice.html" , "我提交的发票" , "list"));
+        list.add(new Menu("/package.html" , "我提交的发票" , "list"));
         result.put("menus" , list);
         return result;
     }
@@ -40,7 +40,7 @@ public class MenuApi {
         JSONObject result = new JSONObject();
         List<Menu> list = new ArrayList<>();
         list.add(new Menu("/scan.html" , "发票扫描" , "interface-windows"));
-        list.add(new Menu("/invoice.html" , "发票列表" , "list"));
+        list.add(new Menu("/package.html" , "发票列表" , "list"));
         list.add(new Menu("/user.html" , "用户列表" , "user"));
         result.put("menus" , list);
         return result;

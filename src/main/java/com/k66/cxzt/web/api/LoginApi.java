@@ -27,6 +27,7 @@ public class LoginApi {
 		resp.put("code" , 200);
 		resp.put("token" , token);
 		resp.put("nickName" , user.getNickName());
+		resp.put("type" , user.getType());
 		return resp;
 	}
 
