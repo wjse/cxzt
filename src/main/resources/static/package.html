@@ -72,8 +72,87 @@
       <div class="paging" id="page"></div>
     </div>
   </div>
+  <div class="modal fade" id="modal" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="invoiceTypeName"></h4>
+          <button class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-hover invoice-table">
+            <tr>
+              <th>购买方</th>
+              <td id="buyerName"></td>
+              <th>销售方</th>
+              <td id="sellerName"></td>
+            </tr>
+            <tr>
+              <th>纳税人识别号</th>
+              <td id="buyerTaxNo"></td>
+              <th>纳税人识别号</th>
+              <td id="sellerTaxNo"></td>
+            </tr>
+            <tr>
+              <th>地址、电话</th>
+              <td id="buyerAddrTel"></td>
+              <th>地址、电话</th>
+              <td id="sellerAddrTel"></td>
+            </tr>
+            <tr>
+              <th>开户行及账号</th>
+              <td id="buyerBank"></td>
+              <th>开户行及账号</th>
+              <td id="sellerBank"></td>
+            </tr>
+          </table>
+          <table class="table invoice-detail-table">
+            <thead>
+              <th width="30%">货物或应税劳务、服务名称</th>
+              <th width="10%">规格型号</th>
+              <th width="10%">单位</th>
+              <th width="10%">数量</th>
+              <th width="10%">单价</th>
+              <th width="10%">金额</th>
+              <th width="10%">税率</th>
+              <th width="10%">税额</th>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <table class="table invoice-table">
+            <tr>
+              <th>合计</th>
+              <td colspan="6"></td>
+              <td id="amount"></td>
+            </tr>
+            <tr>
+              <th>价税合计</th>
+              <td colspan="6"></td>
+              <td id="amountTax"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    .modal-dialog{
+      max-width:1000px;
+    }
+    .invoice-table th{
+      width:10%;
+      padding-left:0;
+      padding-right:0;
+      color:#bd4747;
+    }
 
-    <!-- JavaScript files-->
+    .invoice-table td{
+      width:40%;
+      padding-left:0;
+      padding-right:0;
+    }
+  </style>
+  <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper.js/umd/popper.min.js"> </script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>

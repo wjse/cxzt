@@ -9,5 +9,5 @@ import java.util.List;
 public interface InvoiceDetailMapper {
 	void batchAdd(List<InvoiceDetail> list);
 
-	List<InvoiceDetail> queryByInvoiceId(List<Long> invoiceIds);
+	List<InvoiceDetail> queryByInvoiceId(Long invoiceId);
 }

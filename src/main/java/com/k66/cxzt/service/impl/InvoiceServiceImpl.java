@@ -96,6 +96,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return PageHelper.startPage(pageNum , pageSize).doSelectPageInfo(() -> invoicePackageMapper.queryForList(map));
 	}
 
+	@Override
+	public List<InvoiceDetail> queryInvoiceDetail(Long invoiceId) {
+		return invoiceDetailMapper.queryByInvoiceId(invoiceId);
+	}
+
 	private boolean isNotHistory(QRInvoiceVO invoiceVO , List<Map<String , Object>> historyList){
 		Optional<Map<String , Object>> op = historyList.stream().filter(h -> invoiceVO.getNumber().equals(h.get("number")) && invoiceVO.getCode().equals(h.get("code"))).findAny();
 		return !op.isPresent();

@@ -68,3 +68,7 @@ body{
     background-color: #33b35a;
     color: white;
 }
+
+table .package{
+    background:#dee2e6;
+}

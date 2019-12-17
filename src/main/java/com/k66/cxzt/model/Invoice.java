@@ -10,6 +10,8 @@ import java.util.List;
 public class Invoice {
 	private long id;
 
+	private String invoiceTypeName;
+
 	/**
 	 * 发票号码
 	 */
@@ -102,4 +104,5 @@ public class Invoice {
 	private Long packageId;
 	private List<InvoiceDetail> invoiceDetailList;
 	private int userId;
+	private String idString;
 }

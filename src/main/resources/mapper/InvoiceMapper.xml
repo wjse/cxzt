@@ -3,6 +3,8 @@
 <mapper namespace="com.k66.cxzt.mapper.InvoiceMapper">
     <resultMap id="invoice" type="com.k66.cxzt.model.Invoice">
         <result column="id" property="id"></result>
+        <result column="id" property="idString"></result>
+        <result column="invoice_type_name" property="invoiceTypeName"></result>
         <result column="number" property="number"></result>
         <result column="code" property="code"></result>
         <result column="date" property="date"></result>
@@ -21,17 +23,17 @@
         <result column="tax_amount" property="taxAmount"></result>
         <result column="package_id" property="packageId"></result>
         <result column="user_id" property="userId"></result>
-        <association property="invoiceDetailList" column="id" select="com.k66.cxzt.mapper.InvoiceDetailMapper.queryByInvoiceId"></association>
+        <!--<association property="invoiceDetailList" column="id" select="com.k66.cxzt.mapper.InvoiceDetailMapper.queryByInvoiceId"></association>-->
     </resultMap>
 
     <insert id="add" parameterType="com.k66.cxzt.model.Invoice">
         insert into t_invoice(
-        id,number,code,date,type,invoice_type,
+        id,invoice_type_name,number,code,date,type,invoice_type,
         buyer_name,buyer_tax_no,buyer_addr_tel,buyer_bank,
         seller_name,seller_tax_no,seller_addr_tel,seller_bank,
         amount_tax,amount,tax_amount,package_id,user_id
         ) values (
-        #{id},#{number},#{code},#{date},#{type},#{invoiceType},
+        #{id},#{invoiceTypeName},#{number},#{code},#{date},#{type},#{invoiceType},
         #{buyerName},#{buyerTaxNo},#{buyerAddrTel},#{buyerBank},
         #{sellerName},#{sellerTaxNo},#{sellerAddrTel},#{sellerBank},
         #{amountTax},#{amount},#{taxAmount},#{packageId},#{userId}
@@ -40,14 +42,14 @@
 
     <insert id="batchAdd" parameterType="com.k66.cxzt.model.Invoice">
         insert into t_invoice(
-        id,number,code,date,type,invoice_type,
+        id,invoice_type_name,number,code,date,type,invoice_type,
         buyer_name,buyer_tax_no,buyer_addr_tel,buyer_bank,
         seller_name,seller_tax_no,seller_addr_tel,seller_bank,
         amount_tax,amount,tax_amount,package_id,user_id
         ) values
         <foreach collection="list" item="data" separator=",">
             (
-            #{data.id},#{data.number},#{data.code},#{data.date},#{data.type},#{data.invoiceType},
+            #{data.id},#{data.invoiceTypeName},#{data.number},#{data.code},#{data.date},#{data.type},#{data.invoiceType},
             #{data.buyerName},#{data.buyerTaxNo},#{data.buyerAddrTel},#{data.buyerBank},
             #{data.sellerName},#{data.sellerTaxNo},#{data.sellerAddrTel},#{data.sellerBank},
             #{data.amountTax},#{data.amount},#{data.taxAmount},#{data.packageId},#{data.userId}
@@ -73,6 +75,7 @@
 
     <select id="queryForList" parameterType="map" resultMap="invoice">
         select id,
+               invoice_type_name,
                number,
                code,
                date,

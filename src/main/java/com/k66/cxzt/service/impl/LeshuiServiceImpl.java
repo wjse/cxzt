@@ -66,6 +66,7 @@ public class LeshuiServiceImpl implements LeshuiService {
 			if("1000".equals(result.getString("resultCode"))){
 				JSONObject invoiceResult = result.getJSONObject("invoiceResult");
 				Invoice invoice = new Invoice();
+				invoice.setInvoiceTypeName(invoiceResult.getString("invoiceTypeName"));
 				invoice.setType(getInvoiceType(invoiceResult.getString("invoiceTypeCode")));
 				try {
 					invoice.setDate(DateUtils.parseDate(invoiceResult.getString("billingTime") , "yyyy-MM-dd"));

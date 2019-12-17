@@ -23,6 +23,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `t_invoice`;
 CREATE TABLE `t_invoice` (
   `id` bigint(20) NOT NULL,
+  `invoice_type_name` varchar(45) NOT NULL,
   `number` char(15) NOT NULL COMMENT '发票号码',
   `code` char(15) NOT NULL COMMENT '发票代码',
   `date` datetime NOT NULL COMMENT '开票日期',
