@@ -8,12 +8,17 @@ import java.util.Map;
 
 @Data
 public class InvoicePackageQueryVO {
+	String user;
 	Integer userId;
 	Long startTime;
 	Long endTime;
 
 	public Map<String , Object> toMap(){
 		Map<String , Object> map = new HashMap<>();
+		if(null != user){
+			map.put("user" , user);
+		}
+
 		if(null != userId){
 			map.put("userId" , userId);
 		}

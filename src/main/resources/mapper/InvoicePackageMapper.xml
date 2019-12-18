@@ -28,6 +28,9 @@
               amount
          from t_invoice_package
        <where>
+           <if test="null != user">
+               and user_id in (select id from t_user where nick_name = #{user})
+           </if>
            <if test="null != userId">
                and user_id = #{userId}
            </if>

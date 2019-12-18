@@ -25,7 +25,7 @@ function Page(){
         this.pageHtml();
 
         //分页绑定事件
-            $(P.config.elemId).on('click','a',function(){
+        $(P.config.elemId).on('click','a',function(){
             var flag = $(this).parent().hasClass('disabled');
             if(flag){
                 return false;

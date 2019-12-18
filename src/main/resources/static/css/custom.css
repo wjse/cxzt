@@ -4,7 +4,7 @@ body{
 }
 
 #main-section{
-    height: calc(100vh);
+    height: calc(101vh);
     overflow-y: hidden;
     padding-top: 0;
 }
@@ -13,6 +13,10 @@ body{
     width: 100%;
     border:none;
     height: 100%;
+}
+
+.inner{
+    overflow:auto;
 }
 
 .hide{

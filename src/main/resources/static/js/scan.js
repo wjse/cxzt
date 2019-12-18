@@ -10,6 +10,10 @@
                 return
             }
 
+            if(invoiceList.length > 10){
+                alert("扫描的发票大于10张！");
+            }
+
             let invoicePackage = {
                 count : $("#count").val(),
                 amount : $("#totalAmount").val(),

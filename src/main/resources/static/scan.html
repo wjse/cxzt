@@ -29,7 +29,7 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
   </head>
-  <body>
+  <body class="inner">
   <div class="card">
     <div class="card-header d-flex align-items-center">
       <h4>发票扫描</h4>
@@ -52,6 +52,10 @@
           <input id="submit" type="button" value="提交" class="mr-3 btn btn-primary">
         </div>
       </form>
+    </div>
+    <div class="alert alert-warning" role="alert">
+      请确保当前界面在屏幕最上方，并且最大化以保证系统能够识别扫码枪。<br>
+      单次提交最多只能扫描<strong>10张发票</strong>！
     </div>
   </div>
   <div class="card">

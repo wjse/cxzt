@@ -10,6 +10,7 @@
             if(res.code == 200){
                 window.sessionStorage.setItem("token" , res.token);
                 window.sessionStorage.setItem("nickName" , res.nickName);
+                window.sessionStorage.setItem("type" , res.type);
                 window.location.href = "/index.html";
             }else{
                 $("#login-error").text(res.message).show();

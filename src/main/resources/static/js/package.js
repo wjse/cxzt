@@ -7,7 +7,7 @@
 
         $("#search").on("click" , function(){
             $(".form-inline").on("submit" , () => false);
-            loadPackage(1);//TODO
+            loadPackage(1);
         });
     });
 
@@ -17,10 +17,10 @@
     function loadPackage(pageNum){
         let params = {};
 
-        let userId = $("#user").val();
+        let user = $("#user").val();
         let startTime = $("#startTime").val();
-        if(userId){
-            params.userId = userId;
+        if(user){
+            params.user = user;
         }
 
         if(startTime){
@@ -36,13 +36,14 @@
 
     function render(page){
         P.initMathod({
-            params: {elemId: '#page' , total : page.total , pageIndex: page.pages , pageNum : page.pageNum , pageSize : page.pageSize},
+            params: {elemId: '#page' , total : page.total , pageIndex: page.pageNum , pageNum : page.pages , pageSize : page.pageSize},
             requestFunction: function () {}
         });
 
         let list = page.list;
         invoiceList = [];
         if(!list || list.length == 0){
+            $("#tbody").html("");
             return;
         }
 
@@ -65,6 +66,17 @@
             if(invoice){
                 renderDetail(invoice);
             }
+        });
+
+        $("#page").on("click" , "a" , function(){
+            console.log(134);
+            var flag = $(this).parent().hasClass('disabled');
+            if(flag){
+                return false;
+            }
+
+            var pageIndex = $(this).data('pageindex');
+            loadPackage(pageIndex);
         });
     };
 
@@ -113,11 +125,11 @@
             html += "<td>" + invoicePackage.count + "</td>";
             html += "<td>" + invoicePackage.amount + "</td>";
             html += "</tr>";
-            html += renderInvoice(invoicePackage.invoiceSet);
+            html += renderInvoice(invoicePackage.id , invoicePackage.invoiceSet);
         return html;
     };
 
-    function renderInvoice(list){
+    function renderInvoice(packageId , list){
         let html = "<tr>";
             html += "<td></td>";
             html += "<td colspan='4'>";
