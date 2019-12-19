@@ -25,7 +25,7 @@
     $("#export").on("shown.bs.popover" , function(){
         $("#exportSubmit").on("click" , function(){
             let sd = $("#startDate").val() , ed = $("#endDate").val();
-            let url = "/export?token=" + window.sessionStorage.getItem("token");
+            let url = "/export?Token=" + window.sessionStorage.getItem("token");
 
             if(sd){
                 url += "&startTime=" + new Date(sd).getTime();
