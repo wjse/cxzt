@@ -26,8 +26,12 @@ public class AuthHandler implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String token = request.getHeader(TOKEN);
 		if(StringUtils.isBlank(token)){
-			sendError(response);
-			return false;
+			token = request.getParameter(TOKEN);
+
+			if(StringUtils.isBlank(token)){
+				sendError(response);
+				return false;
+			}
 		}
 
 		if(JWTUtil.isExpire(token)){

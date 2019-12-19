@@ -45,7 +45,16 @@
           <input id="startTime" type="date" class="mr-3 form-control">
         </div>
         <div class="form-group">
-          <input id="search" type="button" value="查询" class="mr-3 btn btn-primary">
+          <button id="search" type="button" class="mr-3 btn btn-primary">
+            <i class="icon-search"></i>
+            查询
+          </button>
+        </div>
+        <div class="form-group">
+          <button id="export" type="button" class="mr-3 btn btn-info">
+            <i class="icon-page"></i>
+            导出
+          </button>
         </div>
       </form>
     </div>
@@ -154,6 +163,9 @@
       padding-left:0;
       padding-right:0;
     }
+    .popover{
+      max-width:none;
+    }
   </style>
   <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -168,5 +180,6 @@
     <!-- Main File-->
     <script src="js/front.js"></script>
     <script src="js/package.js"></script>
+    <script src="js/export.js"></script>
   </body>
 </html>
