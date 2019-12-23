@@ -6,6 +6,40 @@
         $("#search").on("click" , function(){
             loadUsers(1);
         });
+
+        $("#addSubmit").on("click" , function(){
+            $("#form").on("submit" , () => false);
+            let username = $("#username").val(),
+                nickName = $("#nickName").val(),
+                mobile = $("#mobile").val(),
+                email = $("#email").val(),
+                type = $("#type").val(),
+                region = $("#region").val(),
+                company = $("#company").val();
+
+            if(!username || !nickName || !mobile){
+                return;
+            }
+
+            let user = {
+                username : username,
+                nickName : nickName,
+                mobile : mobile,
+                email : email,
+                type : type,
+                region : region,
+                company : company
+            };
+
+            api("/user" , "POST" , user , function(res){
+                if(res.code == 200){
+                    alert("用户添加成功");
+                    window.location.reload();
+                }else{
+                    alert(res.message);
+                }
+            });
+        });
     });
 
     function loadUsers(pageNum){
@@ -52,7 +86,9 @@
             html += "<td>"+ (user.type == 'NORMAL' ? '扫票用户' : '管理员') +"</td>";
             html += "<td>"+ user.region +"</td>";
             html += "<td>"+ user.company +"</td>";
-            html += "<td><button class='btn btn-warning reset' id='"+ user.id +"'>重置密码</button></td>";
+            html += "<td>";
+            html += "<button class='btn btn-warning reset' id='"+ user.id +"'>重置密码</button>";
+            html += "</td>";
             html += "</tr>";
         }
 

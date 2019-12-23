@@ -120,7 +120,7 @@
     function renderInvoicePackage(invoicePackage , index){
         let html = "<tr class='package'>";
             html += "<th scope='row'>"+ (index + 1) +"</th>";
-            html += "<td>" + invoicePackage.user.nickName + "</td>";
+            html += "<td>" + (invoicePackage.user ? invoicePackage.user.nickName : "") + "</td>";
             html += "<td>" + new Date(invoicePackage.date).format("yyyy-MM-dd hh:mm:ss") + "</td>";
             html += "<td>" + invoicePackage.count + "</td>";
             html += "<td>" + invoicePackage.amount + "</td>";

@@ -21,4 +21,6 @@ public interface UserMapper {
 	List<User> queryForList(Map<String, Object> toMap);
 
 	void updatePassword(@Param("id") int id , @Param("password") String password);
+
+    void insert(User user);
 }

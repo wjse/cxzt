@@ -37,7 +37,8 @@
     <div class="card-body">
       <form class="form-inline">
         <div class="form-group">
-          <h5 for="searchNickName" type="text" class="mr-3 form-control">
+          <h5 for="searchNickName" style="margin-right:15px;">用户姓名</h5>
+          <input id="searchNickName" type="text" class="mr-3 form-control">
         </div>
         <div class="form-group">
           <h5 for="mobile" style="margin-right:15px;">电话号码</h5>
@@ -50,7 +51,7 @@
           </button>
         </div>
         <div class="form-group">
-          <button id="add" type="button" class="mr-3 btn btn-info">
+          <button id="add" type="button" class="mr-3 btn btn-info" data-toggle="modal" data-target="#userModal">
             <i class="icon-user"></i>
             新增
           </button>
@@ -81,7 +82,7 @@
       <div class="paging" id="page"></div>
     </div>
   </div>
-  <div class="modal fade" id="passwordModal" role="basic" aria-hidden="true">
+  <div class="modal fade" id="userModal" role="basic" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -99,7 +100,30 @@
               <input id="nickName" type="text" class="form-control" min="6" max="14" placeholder="用户姓名" required>
             </div>
             <div class="form-group">
-              <button type="submit" id="passwordSubmit" class="btn btn-primary">确定</button>
+              <label for="mobile">电话号码</label>
+              <input id="mobile" type="tel" class="form-control" placeholder="电话号码" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" type="email" class="form-control" placeholder="邮箱地址">
+            </div>
+            <div class="form-group">
+              <label for="type">用户类型</label>
+              <select id="type" class="form-control">
+                <option value="NORMAL">扫票用户</option>
+                <option value="ADMIN">管理员</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="region">地区</label>
+              <input id="region" type="text" class="form-control" placeholder="所属地区">
+            </div>
+            <div class="form-group">
+              <label for="company">公司</label>
+              <input id="company" type="text" class="form-control" placeholder="所属公司">
+            </div>
+            <div class="form-group">
+              <button type="submit" id="addSubmit" class="btn btn-primary">添加</button>
             </div>
           </form>
         </div>

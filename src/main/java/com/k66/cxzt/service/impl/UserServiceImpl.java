@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
 			throw new BusinessException(ErrorCode.FORBIDDEN , "user.wrongPassword");
 		}
 
-		if(!user.getType().equals(User.UserType.ADMIN)){
-			throw new BusinessException(ErrorCode.NOT_FOUNT , "user.notFound");
-		}
+//		if(!user.getType().equals(User.UserType.ADMIN)){
+//			throw new BusinessException(ErrorCode.NOT_FOUNT , "user.notFound");
+//		}
 		return user;
 	}
 
@@ -81,6 +81,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updatePassword(int id, String password) {
 		userMapper.updatePassword(id , EncryptUtil.hex(password , "md5"));
+	}
+
+	@Override
+	public void save(User user) {
+		user.setPassword(EncryptUtil.hex(EncryptUtil.hex(DEFAULT_PASSWORD , "sha1") , "md5"));
+		userMapper.insert(user);
 	}
 
 	public static void main(String[] args) {

@@ -85,4 +85,9 @@
            set password = #{password}
          where id = #{id}
     </update>
+
+    <insert id="insert" parameterType="com.k66.cxzt.model.User">
+        insert into t_user (username , password , nick_name , mobile , email , type , region , company)
+                    values (#{username} , #{password} , #{nickName} , #{mobile} , #{email} , #{type} , #{region} , #{company})
+    </insert>
 </mapper>

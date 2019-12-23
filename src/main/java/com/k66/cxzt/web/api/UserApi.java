@@ -42,4 +42,12 @@ public class UserApi {
 		result.put("code" , 200);
 		return result;
 	}
+
+	@PostMapping
+	public JSONObject add(@RequestBody User user){
+		userService.save(user);
+		JSONObject result = new JSONObject();
+		result.put("code" , 200);
+		return result;
+	}
 }

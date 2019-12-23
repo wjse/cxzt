@@ -17,4 +17,6 @@ public interface UserService {
 	void resetPassword(int id);
 
 	void updatePassword(int id, String password);
+
+    void save(User user);
 }
