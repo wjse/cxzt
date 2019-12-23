@@ -1,5 +1,7 @@
 package com.k66.cxzt.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.k66.cxzt.exception.BusinessException;
 import com.k66.cxzt.exception.ErrorCode;
 import com.k66.cxzt.mapper.UserMapper;
@@ -9,6 +11,8 @@ import com.k66.cxzt.utils.EncryptUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -59,5 +63,27 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateOpenIdAndWechat(User user) {
 		userMapper.updateOpenIdAndWechat(user);
+	}
+
+	@Override
+	public PageInfo<User> queryForPage(int pageNum, int pageSize, Map<String, Object> toMap) {
+		return PageHelper.startPage(pageNum , pageSize).doSelectPageInfo(() -> userMapper.queryForList(toMap));
+	}
+
+	private static final String DEFAULT_PASSWORD = "123456";
+
+	@Override
+	public void resetPassword(int id) {
+		String password = EncryptUtil.hex(EncryptUtil.hex(DEFAULT_PASSWORD , "sha1") , "md5");
+		userMapper.updatePassword(id , password);
+	}
+
+	@Override
+	public void updatePassword(int id, String password) {
+		userMapper.updatePassword(id , EncryptUtil.hex(password , "md5"));
+	}
+
+	public static void main(String[] args) {
+		System.out.println(EncryptUtil.hex(EncryptUtil.hex(DEFAULT_PASSWORD , "sha1") , "md5"));
 	}
 }

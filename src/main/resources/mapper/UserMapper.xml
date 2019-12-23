@@ -50,6 +50,26 @@
           from t_user
          where open_id = #{openId}
     </select>
+    <select id="queryForList" resultType="com.k66.cxzt.model.User">
+        select id,
+               username,
+               nick_name nickName,
+               mobile,
+               email,
+               type,
+               open_id openId,
+               region,
+               company
+          from t_user
+        <where>
+            <if test="null != nickName">
+                and nick_name = #{nickName}
+            </if>
+            <if test="null != mobile">
+                and mobile = #{mobile}
+            </if>
+        </where>
+    </select>
 
     <update id="updateOpenIdAndWechat" parameterType="com.k66.cxzt.model.User">
         update t_user
@@ -57,6 +77,12 @@
         <if test="null != wechat">
               ,wechat = #{wechat}
         </if>
+         where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        update t_user
+           set password = #{password}
          where id = #{id}
     </update>
 </mapper>

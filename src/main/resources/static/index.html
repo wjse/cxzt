@@ -66,6 +66,12 @@
               <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                 <!-- Log out-->
                 <li class="nav-item">
+                  <a href="#passwordModal" class="nav-link" data-toggle="modal" data-target="#passwordModal">
+                    <span class="d-none d-sm-inline-block">修改密码</span>
+                    <i class="icon-check"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a href="#" id="logout" class="nav-link logout">
                     <span class="d-none d-sm-inline-block">退出系统</span>
                     <i class="fa fa-sign-out"></i>
@@ -80,7 +86,33 @@
         <iframe id="main" name="main"></iframe>
       </section>
     </div>
-    <!-- JavaScript files-->
+    <div class="modal fade" id="passwordModal" role="basic" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4>修改密码</h4>
+            <button class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-close"></i></button>
+          </div>
+          <div class="modal-body">
+            <form id="form">
+              <div class="form-group">
+                <label for="password">新密码</label>
+                <input id="password" type="password" class="form-control" minlength="6" maxlength="14" placeholder="请输入新密码" required>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">确认新密码</label>
+                <input id="confirmPassword" type="password" class="form-control" min="6" max="14" placeholder="请再次输入新密码" required>
+              </div>
+              <div class="form-group">
+                <button type="submit" id="passwordSubmit" class="btn btn-primary">确定</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper.js/umd/popper.min.js"> </script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -89,6 +121,7 @@
     <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
     <!-- Main File-->
     <script src="js/front.js"></script>
+    <script src="js/sha1.min.js"></script>
     <script src="js/ajax.js"></script>
     <script src="js/index.js"></script>
   </body>
