@@ -11,8 +11,8 @@
     function loadUsers(pageNum){
         let params = {};
 
-        let nickName = $("#nickName").val();
-        let mobile = $("#mobile").val();
+        let nickName = $("#searchNickName").val();
+        let mobile = $("#searchMobile").val();
         if(nickName){
             params.nickName = nickName;
         }

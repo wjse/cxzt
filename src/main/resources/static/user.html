@@ -37,12 +37,11 @@
     <div class="card-body">
       <form class="form-inline">
         <div class="form-group">
-          <h5 for="nickName" style="margin-right:15px;">姓名</h5>
-          <input id="nickName" type="text" class="mr-3 form-control">
+          <h5 for="searchNickName" type="text" class="mr-3 form-control">
         </div>
         <div class="form-group">
           <h5 for="mobile" style="margin-right:15px;">电话号码</h5>
-          <input id="mobile" type="text" class="mr-3 form-control">
+          <input id="searchMobile" type="text" class="mr-3 form-control">
         </div>
         <div class="form-group">
           <button id="search" type="button" class="mr-3 btn btn-primary">
@@ -80,6 +79,31 @@
         </table>
       </div>
       <div class="paging" id="page"></div>
+    </div>
+  </div>
+  <div class="modal fade" id="passwordModal" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>新增用户</h4>
+          <button class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="form" class="form-horizontal">
+            <div class="form-group">
+              <label for="username">用户名</label>
+              <input id="username" type="text" class="form-control" minlength="6" maxlength="14" placeholder="用户登录用户名" required>
+            </div>
+            <div class="form-group">
+              <label for="nickName">用户姓名</label>
+              <input id="nickName" type="text" class="form-control" min="6" max="14" placeholder="用户姓名" required>
+            </div>
+            <div class="form-group">
+              <button type="submit" id="passwordSubmit" class="btn btn-primary">确定</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 
