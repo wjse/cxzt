@@ -8,7 +8,7 @@ spring:
 
 logging:
   level:
-    com.k66.cxzt: debug
+    com.k66.cxzt: error
 
 web:
   origins: "*"
