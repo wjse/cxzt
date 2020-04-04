@@ -4,6 +4,23 @@
         $("#scanner").val(window.sessionStorage.getItem("nickName"));
         getScan();
 
+        $("#add").on("click" , function(){
+            $(".form-inline").on("submit" , () => false);
+            let number = $("#number").val(),
+                code = $("#code").val(),
+                date = $("#date").val()
+                amount = $("#amount").val();
+
+            if(number && code && date && amount){
+                getInfo(number + "," + code + "," + date + "," + amount);
+                flush();
+                $("#number").val("");
+                $("#code").val("");
+                $("#date").val("");
+                $("#amount").val("");
+            }
+        });
+
         $("#submit").on("click" , function(){
             $(".form-inline").on("submit" , () => false)
             if(!invoiceList || invoiceList.length == 0){
@@ -40,7 +57,7 @@
                     code += event.key;
                 }
             }else{
-                getInfo(code);
+                getInfo(code , true);
                 code = "";
                 flush();
             }
@@ -67,7 +84,7 @@
             html += "<td>" + invoice.typeString + "</td>";
             html += "<td>" + invoice.amount + "</td>";
             html += "<td>" + invoice.date + "</td>";
-            html += "<td>" + invoice.check + "</td>";
+            html += "<td>" + (invoice.check ? invoice.check : "") + "</td>";
             html += "<td><button code='"+invoice.code+"' number='"+invoice.number+"' class='delBtn btn btn-danger'>删除</button></td>";
             html += "</tr>";
             totalAmount += parseFloat(invoice.amount);
@@ -92,22 +109,32 @@
         });
     };
 
-    function getInfo(code){
+    function getInfo(code , isScan){
         if(!code){
             return;
         }
         let array = code.split(",");
-        let invoice = {
-            typeString : getInvoiceType(array[1]),
-            type : array[1],
-            code : array[2],
-            number : array[3],
-            amount : array[4],
-            date : getDateString(array[5]),
-            check : array[6]
-        };
-
-        console.log(invoice);
+        let invoice;
+        if(isScan){
+            invoice = {
+                    typeString : getInvoiceType(array[1]),
+                    type : array[1],
+                    code : array[2],
+                    number : array[3],
+                    amount : array[4],
+                    date : getDateString(array[5]),
+                    check : array[6]
+                };
+        }else{
+            invoice = {
+                number : array[0],
+                code : array[1],
+                date : array[2],
+                type : "01",
+                typeString : getInvoiceType("01"),
+                amount : array[3]
+            };
+        }
 
         let has = false;
         for(let i in invoiceList){
